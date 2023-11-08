@@ -1,0 +1,1 @@
+docker run -idt --name kotlin-dev -v ${PWD}:/poker openjdk:11
