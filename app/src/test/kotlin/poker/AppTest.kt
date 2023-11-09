@@ -7,6 +7,7 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 import org.junit.jupiter.api.Assertions.assertThrows
+import kotlin.test.assertNotEquals
 
 class CardTest {
     @Test
@@ -164,12 +165,19 @@ class HandTest{
         )
 
 
-        val sortedStraightCards = arrayListOf(
+        val sortedStraight = arrayListOf(
             Card("2", "Spades"),
             Card("4", "Hearts"),
             Card("3", "Clubs"),
             Card("5", "Clubs"),
             Card("6", "Diamonds")
+        )
+        val flush = arrayListOf(
+            Card("2", "Spades"),
+            Card("4", "Spades"),
+            Card("9", "Spades"),
+            Card("5", "Spades"),
+            Card("6", "Spades")
         )
     }
 
@@ -207,8 +215,21 @@ class HandTest{
 
     @Test
     fun testIsStraight() {
-        val hand = Hand(sortedStraightCards)
+        val hand = Hand(sortedStraight)
         assertEquals("Straight", hand.bestHand())
+    }
+
+    @Test
+    fun testStraightLessThan5Cards() {
+
+        val hand = Hand( ArrayList(sortedStraight.subList(0,4)))
+        assertNotEquals("Straight", hand.bestHand())
+    }
+
+    @Test
+    fun testIsFlush() {
+        val hand = Hand(flush)
+        assertEquals("Flush", hand.bestHand())
     }
 
 

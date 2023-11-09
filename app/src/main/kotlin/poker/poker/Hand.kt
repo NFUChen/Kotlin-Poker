@@ -12,7 +12,26 @@ data class Hand(val cards: ArrayList<Card>) {
         return countMap.filter { (_, count) -> count >= target }
     }
 
+    private fun suitWithTargetCount(target: Int): Map<String, Int> {
+        val countMap = mutableMapOf<String, Int>()
+        for (card in cards) {
+            countMap.put(card.suit, countMap.getOrDefault(card.suit, 0) + 1)
+        }
+
+        return countMap.filter { (_, count) -> count >= target }
+    }
+
+    private  fun isFlush(): Boolean {
+        val suitCount = suitWithTargetCount(5)
+        return suitCount.size >= 1
+    }
+
+
     private fun isStraight(): Boolean {
+        if (cards.size < 5) {
+            return false
+        }
+
         val sortedCards = ArrayList(cards.map { card -> card.copy() })
         sortedCards.sort()
         for (idx in 1..<cards.size ) {
@@ -65,6 +84,7 @@ data class Hand(val cards: ArrayList<Card>) {
     fun bestHand(): String {
 
         val validatorsWithRankNames = mapOf(
+            "Flush" to ::isFlush,
             "Straight" to ::isStraight,
             "Three Of A Kind" to ::isThreeOfAKind,
             "Two Pair" to ::isTwoPair,
