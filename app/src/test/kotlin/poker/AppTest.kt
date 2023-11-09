@@ -98,6 +98,28 @@ class CardTest {
     fun testIfTwoCardsAreEqual() {
         assertEquals(Card("Queen", "Hearts"), Card("Queen", "Hearts"))
     }
+
+    @Test
+    fun testSortedCards() {
+        val unSortedStraightCards = arrayListOf(
+            Card("2", "Spades"),
+            Card("4", "Hearts"),
+            Card("3", "Clubs"),
+            Card("5", "Clubs"),
+            Card("6", "Diamonds")
+        )
+        val sortedStraightCards = arrayListOf(
+            Card("2", "Spades"),
+            Card("3", "Clubs"),
+            Card("4", "Hearts"),
+            Card("5", "Clubs"),
+            Card("6", "Diamonds")
+        )
+
+        unSortedStraightCards.sort()
+        assertEquals(sortedStraightCards, unSortedStraightCards)
+
+    }
 }
 
 class DeckTest {
@@ -140,6 +162,15 @@ class HandTest{
             Card("Ace", "Hearts"),
             Card("3", "Clubs")
         )
+
+
+        val sortedStraightCards = arrayListOf(
+            Card("2", "Spades"),
+            Card("4", "Hearts"),
+            Card("3", "Clubs"),
+            Card("5", "Clubs"),
+            Card("6", "Diamonds")
+        )
     }
 
     @Test
@@ -165,12 +196,19 @@ class HandTest{
     fun testTwoPairIsBestRank() {
         val hand = Hand(twoPair)
         assertEquals("Two Pair", hand.bestHand())
+
     }
 
     @Test
     fun testThreeOfAKindIsBestRank() {
         val hand = Hand(threeOfAKind)
         assertEquals("Three Of A Kind", hand.bestHand())
+    }
+
+    @Test
+    fun testIsStraight() {
+        val hand = Hand(sortedStraightCards)
+        assertEquals("Straight", hand.bestHand())
     }
 
 
