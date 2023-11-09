@@ -1,6 +1,8 @@
 package poker
 
 data class Card(val rank: String, val suit: String) : Comparable<Card> {
+    val rankIdx = RANKS.indexOf(rank)
+    val suitIdx = SUITS.indexOf(suit)
     companion object {
         val SUITS = arrayListOf("Hearts", "Clubs", "Spades", "Diamonds")
         val RANKS =
@@ -21,7 +23,7 @@ data class Card(val rank: String, val suit: String) : Comparable<Card> {
                 )
         fun Create52Cards(): ArrayList<Card> {
             val cards: ArrayList<Card> = arrayListOf()
-
+            
             for (suit in Card.SUITS) {
                 for (rank in Card.RANKS) {
                     cards.add(Card(rank, suit))
@@ -44,6 +46,10 @@ data class Card(val rank: String, val suit: String) : Comparable<Card> {
         if (other.rank == rank && other.suit == suit) {
             return 0
         }
+        if (rankIdx < other.rankIdx) {
+            return -1
+        }
+
 
         return 1
     }

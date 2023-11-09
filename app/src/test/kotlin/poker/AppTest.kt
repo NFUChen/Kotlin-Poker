@@ -82,8 +82,21 @@ class CardTest {
     @Test
     fun testDeckDidHave52Cards() {
         val cards = Card.Create52Cards()
-        println(cards)
         assertEquals(52, cards.size, "Should have 52 cards, getting ${cards.size}")
+    }
+    @Test
+    fun testCanCreate52Cards() {
+        val _52Cards = Card.Create52Cards()
+        val firstCard = Card("2", "Hearts")
+        val finalCard = Card("Ace", "Diamonds")
+        assertEquals(firstCard, _52Cards[0], "First card should be $firstCard, getting ${_52Cards[0]}")
+        assertEquals(finalCard, _52Cards[_52Cards.lastIndex], "Final card should be $finalCard, getting ${_52Cards[_52Cards.lastIndex]}")
+
+    }
+
+    @Test
+    fun testIfTwoCardsAreEqual() {
+        assertEquals(Card("Queen", "Hearts"), Card("Queen", "Hearts"))
     }
 }
 
@@ -101,4 +114,65 @@ class DeckTest {
         deck.addCards(cards)
         assertEquals(arrayListOf(Card("Queen", "Hearts")), deck.cards)
     }
+    
+}
+
+class HandTest{
+    companion object {
+        val highCards = arrayListOf(
+            Card("Ace", "Spades"),
+            Card("6", "Clubs")
+        )
+        val pair = arrayListOf(
+            Card("Ace", "Spades"),
+            Card("Ace", "Clubs")
+        )
+
+        val twoPair = arrayListOf(
+            Card("Ace", "Spades"),
+            Card("Ace", "Clubs"),
+            Card("3", "Spades"),
+            Card("3", "Clubs")
+        )
+        val threeOfAKind = arrayListOf(
+            Card("Ace", "Spades"),
+            Card("Ace", "Clubs"),
+            Card("Ace", "Hearts"),
+            Card("3", "Clubs")
+        )
+    }
+
+    @Test
+    fun testReceiveAndStoreCards() {
+        val hand = Hand(highCards)
+        assertEquals(hand.cards, highCards)
+    }
+
+    @Test
+    fun testHighCardIsBestRank() {
+        val hand = Hand(highCards)
+
+        assertEquals("High Card", hand.bestHand())
+    }
+
+    @Test
+    fun testPairIsBestRank() {
+        val hand = Hand(pair)
+        assertEquals("Pair", hand.bestHand())
+    }
+
+    @Test
+    fun testTwoPairIsBestRank() {
+        val hand = Hand(twoPair)
+        assertEquals("Two Pair", hand.bestHand())
+    }
+
+    @Test
+    fun testThreeOfAKindIsBestRank() {
+        val hand = Hand(threeOfAKind)
+        assertEquals("Three Of A Kind", hand.bestHand())
+    }
+
+
+
 }
